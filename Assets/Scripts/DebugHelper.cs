@@ -9,10 +9,17 @@ namespace WordGenderApp
     {
         public Transform TestTransform;
         public Vector3 TestPosition;
+        public Vector3 PivotPosition;
+
+        private void OnValidate()
+        {
+            if (!TestTransform) TestTransform = transform;
+        }
 
         private void Update()
         {
             TestPosition = TestTransform.position;
+            PivotPosition = TestTransform.GetComponent<RectTransform>().anchoredPosition;
         }
     }
 }
