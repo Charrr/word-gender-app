@@ -16,6 +16,7 @@ namespace WordGenderApp
         [Range(0.01f, 0.2f)]
         private float _returnToCenterDuration = 0.03f;
 
+        [Header("Object References")]
         [SerializeField]
         private TMP_Text _wordText;
         [SerializeField]
@@ -24,6 +25,13 @@ namespace WordGenderApp
         private Transform _rightthreshold;
         private Transform _topThreshold;
         private Transform _bottomThreshold;
+        [SerializeField]
+        private GameObject LeftTag;
+        [SerializeField]
+        private GameObject RightTag;
+        [SerializeField]
+        private GameObject TopTag;
+        private List<GameObject> _allTags = new();
 
         private Vector3 _defaultPosition;
         private Vector2 _delta;
@@ -34,7 +42,11 @@ namespace WordGenderApp
         private void OnValidate()
         {
             if (!_wordText) _wordText = GetComponentInChildren<TMP_Text>();
-            if (!_thresholdReferences) _thresholdReferences = GameObject.Find("Canvas/Threshold References").transform;
+            if (!_thresholdReferences)
+            {
+                var refs = GameObject.Find("Canvas/Threshold References");
+                if (refs) _thresholdReferences = refs.transform;
+            }
         }
 
         private void Awake()
@@ -43,17 +55,40 @@ namespace WordGenderApp
             _rightthreshold = _thresholdReferences.Find("Right Threshold");
             _bottomThreshold = _thresholdReferences.Find("Bottom Threshold");
             _topThreshold = _thresholdReferences.Find("Top Threshold");
+            _allTags.Add(LeftTag);
+            _allTags.Add(RightTag);
+            _allTags.Add(TopTag);
         }
 
         private void Start()
         {
             _defaultPosition = transform.position;
+            LeftTag.SetActive(false);
+            RightTag.SetActive(false);
+            TopTag.SetActive(false);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             _delta = eventData.delta;
             transform.Translate(_delta);
+
+            var area = DetermineSwipeArea(transform.position);
+            switch (area)
+            {
+                case Datatypes.SwipeArea.Left:
+                    ShowTag(LeftTag);
+                    break;
+                case Datatypes.SwipeArea.Right:
+                    ShowTag(RightTag);
+                    break;
+                case Datatypes.SwipeArea.Top:
+                    ShowTag(TopTag);
+                    break;
+                default:
+                    HideAllTags();
+                    break;
+            }
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -195,6 +230,23 @@ namespace WordGenderApp
                 timer += Time.deltaTime;
             }
             transform.position = _defaultPosition;
+            HideAllTags();
+        }
+
+        private void ShowTag(GameObject target)
+        {
+            foreach (var tag in _allTags)
+            {
+                tag.SetActive(tag == target);
+            }
+        }
+
+        private void HideAllTags()
+        {
+            foreach (var tag in _allTags)
+            {
+                tag.SetActive(false);
+            }
         }
     }
 }
