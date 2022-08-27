@@ -28,14 +28,10 @@ namespace WordGenderApp
 
         private void Start()
         {
-            if (!WordCardManager.Instance)
-            {
-                Debug.Log("How could this be!!", this);
-            }
             _coloredBackground = WordCardManager.Instance.ColoredBackgroundDict[_swipeDirection];
             if (!_coloredBackground)
             {
-                Debug.Log("No on Enable", this);
+                Debug.Log("No on Start", this);
             }
         }
 
@@ -43,13 +39,8 @@ namespace WordGenderApp
         {
             float a = GetLerpValue();
 
-            if (!_coloredBackground)
-            {
-                Debug.Log("No", this);
-                return;
-            }
-
-            _coloredBackground.alpha = a;
+            if (_coloredBackground)
+                _coloredBackground.alpha = a;
             _cg.alpha = a;
         }
 

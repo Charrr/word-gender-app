@@ -1376,10 +1376,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 691449a3587c6429890ebfd01eb31362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftColoredBackground: {fileID: 1830123709}
-  RightColoredBackground: {fileID: 436591709}
-  TopColoredBackground: {fileID: 446891910}
-  BottomColoredBackground: {fileID: 1174181157}
+  _leftColoredBackground: {fileID: 1830123709}
+  _rightColoredBackground: {fileID: 436591709}
+  _topColoredBackground: {fileID: 446891910}
+  _bottomColoredBackground: {fileID: 1174181157}
+  _leftThreshold: {fileID: 1735213053}
+  _rightthreshold: {fileID: 401263660}
+  _topThreshold: {fileID: 910051292}
+  _bottomThreshold: {fileID: 1956094959}
 --- !u!4 &1964734718
 Transform:
   m_ObjectHideFlags: 0
