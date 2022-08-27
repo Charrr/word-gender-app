@@ -14,6 +14,8 @@ namespace WordGenderApp
         private Transform _referenceLine;
         [SerializeField]
         private WordCard _wordCard;
+        [SerializeField]
+        private CanvasGroup _coloredBackground; 
 
         private Vector3 _defaultWordCardPos;
         private CanvasGroup _cg;
@@ -27,24 +29,32 @@ namespace WordGenderApp
 
         private void Update()
         {
-            float temp_a = 0f;
+            float a = GetLerpValue();
+
+            _coloredBackground.alpha = a;
+            _cg.alpha = a;
+        }
+
+        private float GetLerpValue()
+        {
+            float t = 0f;
             switch (_swipeDirection)
             {
                 case Datatypes.SwipeArea.Left:
                 case Datatypes.SwipeArea.Right:
-
                     float x_start = _defaultWordCardPos.x;
                     float x_end = _referenceLine.position.x;
-                    temp_a = Mathf.InverseLerp(x_start, x_end, _wordCard.transform.position.x);
+                    t = Mathf.InverseLerp(x_start, x_end, _wordCard.transform.position.x);
                     break;
                 case Datatypes.SwipeArea.Top:
                 case Datatypes.SwipeArea.Bottom:
                     float y_start = _defaultWordCardPos.y;
                     float y_end = _referenceLine.position.y;
-                    temp_a = Mathf.InverseLerp(y_start, y_end, _wordCard.transform.position.y);
+                    t = Mathf.InverseLerp(y_start, y_end, _wordCard.transform.position.y);
                     break;
             }
-            _cg.alpha = Mathf.Clamp(2 * temp_a - 1f, 0f, 1f);
+            // Scale the factor non-linearly to avoid tag showing too early.
+            return Mathf.Clamp(2 * t - 1f, 0f, 1f);
         }
     }
 }
