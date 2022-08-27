@@ -14,17 +14,17 @@ namespace WordGenderApp
         private Transform _referenceLine;
         [SerializeField]
         private WordCard _wordCard;
-        [SerializeField]
-        private CanvasGroup _coloredBackground; 
 
         private Vector3 _defaultWordCardPos;
         private CanvasGroup _cg;
+        private CanvasGroup _coloredBackground; 
 
         private void Awake()
         {
             if (!_wordCard) _wordCard = GetComponentInParent<WordCard>();
             _defaultWordCardPos = _wordCard.transform.position;
             _cg = GetComponent<CanvasGroup>();
+            _coloredBackground = WordCardManager.Instance.ColoredBackgroundDict[_swipeDirection].GetComponent<CanvasGroup>();
         }
 
         private void Update()
