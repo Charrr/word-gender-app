@@ -98,7 +98,6 @@ MonoBehaviour:
   _swipeAwaySpeed: 40
   _returnToCenterDuration: 0.03
   _wordText: {fileID: 1231052097943328382}
-  _thresholdReferences: {fileID: 0}
 --- !u!114 &1443462169
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -29,18 +29,17 @@ namespace WordGenderApp
         private void Start()
         {
             _coloredBackground = WordCardManager.Instance.ColoredBackgroundDict[_swipeDirection];
-            if (!_coloredBackground)
-            {
-                Debug.Log("No on Start", this);
-            }
         }
 
         private void Update()
         {
-            float a = GetLerpValue();
+            UpdateGenderColors();
+        }
 
-            if (_coloredBackground)
-                _coloredBackground.alpha = a;
+        private void UpdateGenderColors()
+        {
+            float a = GetLerpValue();
+            _coloredBackground.alpha = a;
             _cg.alpha = a;
         }
 

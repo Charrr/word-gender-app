@@ -1381,7 +1381,7 @@ MonoBehaviour:
   _topColoredBackground: {fileID: 446891910}
   _bottomColoredBackground: {fileID: 1174181157}
   _leftThreshold: {fileID: 1735213053}
-  _rightthreshold: {fileID: 401263660}
+  _rightThreshold: {fileID: 401263660}
   _topThreshold: {fileID: 910051292}
   _bottomThreshold: {fileID: 1956094959}
 --- !u!4 &1964734718
@@ -1498,26 +1498,14 @@ PrefabInstance:
       propertyPath: _referenceLine
       value: 
       objectReference: {fileID: 910051292}
-    - target: {fileID: 3321201240586578795, guid: 7887f13aea9764f0393964a983754497, type: 3}
-      propertyPath: _coloredBackground
-      value: 
-      objectReference: {fileID: 446891910}
     - target: {fileID: 4154779340154207033, guid: 7887f13aea9764f0393964a983754497, type: 3}
       propertyPath: _referenceLine
       value: 
       objectReference: {fileID: 1735213053}
-    - target: {fileID: 4154779340154207033, guid: 7887f13aea9764f0393964a983754497, type: 3}
-      propertyPath: _coloredBackground
-      value: 
-      objectReference: {fileID: 1830123709}
     - target: {fileID: 8107994378400993527, guid: 7887f13aea9764f0393964a983754497, type: 3}
       propertyPath: _referenceLine
       value: 
       objectReference: {fileID: 401263660}
-    - target: {fileID: 8107994378400993527, guid: 7887f13aea9764f0393964a983754497, type: 3}
-      propertyPath: _coloredBackground
-      value: 
-      objectReference: {fileID: 436591709}
     - target: {fileID: 8221317926882419810, guid: 7887f13aea9764f0393964a983754497, type: 3}
       propertyPath: _referenceLine
       value: 

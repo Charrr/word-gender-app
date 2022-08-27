@@ -20,7 +20,7 @@ namespace WordGenderApp
         [SerializeField]
         private Transform _leftThreshold;
         [SerializeField]
-        private Transform _rightthreshold;
+        private Transform _rightThreshold;
         [SerializeField]
         private Transform _topThreshold;
         [SerializeField]
@@ -69,7 +69,7 @@ namespace WordGenderApp
             float h = Screen.height;
 
             float x_left = _leftThreshold.position.x;
-            float x_right = _rightthreshold.position.x;
+            float x_right = _rightThreshold.position.x;
             float y_bottom = _bottomThreshold.position.y;
             float y_top = _topThreshold.position.y;
 
