@@ -6,11 +6,12 @@ namespace WordGenderApp
 {
     public class WordCardManager : Singleton<WordCardManager>
     {
-        public GameObject LeftColoredBackground;
-        public GameObject RightColoredBackground;
-        public GameObject TopColoredBackground;
+        public CanvasGroup LeftColoredBackground;
+        public CanvasGroup RightColoredBackground;
+        public CanvasGroup TopColoredBackground;
+        public CanvasGroup BottomColoredBackground;
 
-        public Dictionary<Datatypes.SwipeArea, GameObject> ColoredBackgroundDict;
+        public Dictionary<Datatypes.SwipeArea, CanvasGroup> ColoredBackgroundDict;
 
         protected override void Awake()
         {
@@ -20,7 +21,8 @@ namespace WordGenderApp
             {
                 { Datatypes.SwipeArea.Left, LeftColoredBackground },
                 { Datatypes.SwipeArea.Right, RightColoredBackground },
-                { Datatypes.SwipeArea.Top, TopColoredBackground }
+                { Datatypes.SwipeArea.Top, TopColoredBackground },
+                { Datatypes.SwipeArea.Bottom, BottomColoredBackground }
             };
         }
     }

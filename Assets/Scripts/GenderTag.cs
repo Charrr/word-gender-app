@@ -17,19 +17,37 @@ namespace WordGenderApp
 
         private Vector3 _defaultWordCardPos;
         private CanvasGroup _cg;
-        private CanvasGroup _coloredBackground; 
+        private CanvasGroup _coloredBackground;
 
         private void Awake()
         {
             if (!_wordCard) _wordCard = GetComponentInParent<WordCard>();
             _defaultWordCardPos = _wordCard.transform.position;
             _cg = GetComponent<CanvasGroup>();
-            _coloredBackground = WordCardManager.Instance.ColoredBackgroundDict[_swipeDirection].GetComponent<CanvasGroup>();
+        }
+
+        private void Start()
+        {
+            if (!WordCardManager.Instance)
+            {
+                Debug.Log("How could this be!!", this);
+            }
+            _coloredBackground = WordCardManager.Instance.ColoredBackgroundDict[_swipeDirection];
+            if (!_coloredBackground)
+            {
+                Debug.Log("No on Enable", this);
+            }
         }
 
         private void Update()
         {
             float a = GetLerpValue();
+
+            if (!_coloredBackground)
+            {
+                Debug.Log("No", this);
+                return;
+            }
 
             _coloredBackground.alpha = a;
             _cg.alpha = a;
