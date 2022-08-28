@@ -11,13 +11,22 @@ namespace WordGenderApp
         {
             m,
             f,
-            n,
+            n
         }
 
         public struct WordData
         {
             public string Word;
             public Gender Gender;
+        }
+
+        public enum SwipeArea
+        {
+            Left,
+            Right,
+            Bottom,
+            Top,
+            Center
         }
     }
 }
