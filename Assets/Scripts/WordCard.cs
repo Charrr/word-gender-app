@@ -30,6 +30,7 @@ namespace WordGenderApp
 
         public Datatypes.WordData WordData { get; private set; }
         public string Word => WordData.Word;
+        public Datatypes.SwipeArea CurrentArea => _manager.DetermineSwipeArea(transform.position);
 
         private void OnValidate()
         {

@@ -119,5 +119,91 @@ namespace WordGenderApp
                 }
             }
         }
+
+        public float DetermineGenderTagAlpha(Vector2 pos)
+        {
+            float x = pos.x;
+            float y = pos.y;
+            float w = Screen.width;
+            float h = Screen.height;
+
+            float x_left = _leftThreshold.position.x;
+            float x_right = _rightThreshold.position.x;
+            float y_bottom = _bottomThreshold.position.y;
+            float y_top = _topThreshold.position.y;
+
+            Vector3 p1;
+            Vector3 p2;
+            Vector3 p3;
+
+            float a;
+            if (x < x_left)
+            {
+                if (y < y_bottom)
+                {
+                    p1 = new(0, 0, 0);
+                    p2 = new(0, y_bottom, 1);
+                    p3 = new(x_left, y_bottom, 0);
+                    a = Mathf.Abs(GetIntersectionHeightAsAlpha(p1, p2, p3, pos));
+                }
+                else if (y < y_top)
+                {
+                    a = Mathf.InverseLerp(x_left, 0, x);
+                }
+                else
+                {
+                    p1 = new(0, y_top, 1);
+                    p2 = new(0, h, 0);
+                    p3 = new(x_left, y_top, 0);
+                    a = Mathf.Abs(GetIntersectionHeightAsAlpha(p1, p2, p3, pos));
+                }
+            }
+            else if (x < x_right)
+            {
+                if (y < y_bottom)
+                {
+                    a = Mathf.InverseLerp(y_bottom, 0, y);
+                }
+                else if (y < y_top)
+                {
+                    a = 0;
+                }
+                else
+                {
+                    a = Mathf.InverseLerp(y_top, h, y);
+                }
+            }
+            else
+            {
+                if (y < y_bottom)
+                {
+                    p1 = new(x_right, 0, 1);
+                    p2 = new(x_right, y_bottom, 0);
+                    p3 = new(w, y_bottom, 0);
+                    a = Mathf.Abs(GetIntersectionHeightAsAlpha(p1, p2, p3, pos));
+                }
+                else if (y < y_top)
+                {
+                    a = Mathf.InverseLerp(x_right, w, x);
+                }
+                else
+                {
+                    p1 = new(x_right, y_top, 0);
+                    p2 = new(w, h, 0);
+                    p3 = new(w, y_top, 1);
+                    a = Mathf.Abs(GetIntersectionHeightAsAlpha(p1, p2, p3, pos));
+                }
+            }
+
+            return Mathf.Clamp(a * 2, 0f, 1f);
+        }
+
+        public static float GetIntersectionHeightAsAlpha(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 pXY)
+        {
+            Plane plane = new(p1, p2, p3);
+            Ray ray = new(origin: pXY, direction: Vector3.forward);
+            plane.Raycast(ray, out float z);
+            return z;
+        } 
     }
 }
