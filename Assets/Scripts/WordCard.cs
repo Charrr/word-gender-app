@@ -61,6 +61,13 @@ namespace WordGenderApp
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (_manager.DetermineGenderTagAlpha(transform.position) < 0.5f)
+            {
+                Debug.Log("(stays)");
+                StartCoroutine(AnimateReturnToCenter());
+                return;
+            }
+
             var area = _manager.DetermineSwipeArea(transform.position);
             switch (area)
             {
@@ -79,10 +86,6 @@ namespace WordGenderApp
                 case Datatypes.SwipeArea.Bottom:
                     Debug.Log("Idk?");
                     StartCoroutine(AnimateSwipingCardAway());
-                    break;
-                default:
-                    Debug.Log("(stays)");
-                    StartCoroutine(AnimateReturnToCenter());
                     break;
             }
         }
