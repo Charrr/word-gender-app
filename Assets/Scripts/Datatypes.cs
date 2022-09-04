@@ -26,7 +26,6 @@ namespace WordGenderApp
             Right,
             Bottom,
             Top,
-            Center
         }
     }
 }

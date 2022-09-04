@@ -26,6 +26,10 @@ namespace WordGenderApp
         [SerializeField]
         private Transform _bottomThreshold;
 
+        [Header("Word Card References")]
+        public WordCard CurrentWordCard;
+        private Vector2 _wordCardDefaultPos;
+
         public Dictionary<Datatypes.SwipeArea, CanvasGroup> ColoredBackgroundDict;
 
         protected override void Awake()
@@ -33,6 +37,7 @@ namespace WordGenderApp
             base.Awake();
 
             SetUpColorBackgrounds();
+            _wordCardDefaultPos = CurrentWordCard.transform.position;
         }
 
         private void SetUpColorBackgrounds()
@@ -48,17 +53,18 @@ namespace WordGenderApp
 
         // --------------------
         // |\                /|
-        // | \      T       / |
+        // | \              / |
         // |  \            /  |
         // |   \          /   |
-        // |    ----------    |
-        // |    |        |    |                  
-        // | L  |   C    |  R |
-        // |    |        |    |
-        // |    ----------    |
-        // |   /          \   |
-        // |  /            \  |
-        // | /      B       \ |
+        // |    \   T    /    |
+        // |     \      /     |
+        // |      \    /      |
+        // |       \  /       |
+        // |  L     \/     R  |  
+        // |        /\        |
+        // |      /    \      |
+        // |    /        \    |
+        // |  /     B      \  |
         // |/                \|
         // --------------------
         public Datatypes.SwipeArea DetermineSwipeArea(Vector2 point)
@@ -68,18 +74,16 @@ namespace WordGenderApp
             float w = Screen.width;
             float h = Screen.height;
 
-            float x_left = _leftThreshold.position.x;
-            float x_right = _rightThreshold.position.x;
-            float y_bottom = _bottomThreshold.position.y;
-            float y_top = _topThreshold.position.y;
+            float x0 = _wordCardDefaultPos.x;
+            float y0 = _wordCardDefaultPos.y;
 
-            if (x < x_left)
+            if (x < x0)
             {
-                if (y < Mathf.Lerp(0f, y_bottom, x / x_left))
+                if (y < Mathf.Lerp(0f, y0, x / x0))
                 {
                     return Datatypes.SwipeArea.Bottom;
                 }
-                else if (y < Mathf.Lerp(h, y_top, x / x_left))
+                else if (y < Mathf.Lerp(h, y0, x / x0))
                 {
                     return Datatypes.SwipeArea.Left;
                 }
@@ -88,28 +92,13 @@ namespace WordGenderApp
                     return Datatypes.SwipeArea.Top;
                 }
             }
-            else if (x < x_right)
-            {
-                if (y < y_bottom)
-                {
-                    return Datatypes.SwipeArea.Bottom;
-                }
-                else if (y < y_top)
-                {
-                    return Datatypes.SwipeArea.Center;
-                }
-                else
-                {
-                    return Datatypes.SwipeArea.Top;
-                }
-            }
             else
             {
-                if (y < Mathf.Lerp(0, y_bottom, (w - x) / (w - x_right)))
+                if (y < Mathf.Lerp(0, y0, (w - x) / (w - x0)))
                 {
                     return Datatypes.SwipeArea.Bottom;
                 }
-                else if (y < Mathf.Lerp(h, y_top, (w - x) / (w - x_right)))
+                else if (y < Mathf.Lerp(h, y0, (w - x) / (w - x0)))
                 {
                     return Datatypes.SwipeArea.Right;
                 }
@@ -120,6 +109,19 @@ namespace WordGenderApp
             }
         }
 
+        public bool IsWithinThresholdArea(Vector2 pos)
+        {
+            float x = pos.x;
+            float y = pos.y;
+
+            float x_left = _leftThreshold.position.x;
+            float x_right = _rightThreshold.position.x;
+            float y_bottom = _bottomThreshold.position.y;
+            float y_top = _topThreshold.position.y;
+
+            return x > x_left && x < x_right && y > y_bottom && y < y_top;
+        }
+
         public float DetermineGenderTagAlpha(Vector2 pos)
         {
             float x = pos.x;
@@ -127,75 +129,46 @@ namespace WordGenderApp
             float w = Screen.width;
             float h = Screen.height;
 
-            float x_left = _leftThreshold.position.x;
-            float x_right = _rightThreshold.position.x;
-            float y_bottom = _bottomThreshold.position.y;
-            float y_top = _topThreshold.position.y;
+            float x0 = _wordCardDefaultPos.x;
+            float y0 = _wordCardDefaultPos.y;
 
             Vector3 p1;
             Vector3 p2;
             Vector3 p3;
 
-            float a;
-            if (x < x_left)
+            if (x < x0)
             {
-                if (y < y_bottom)
+                if (y < y0)
                 {
                     p1 = new(0, 0, 0);
-                    p2 = new(0, y_bottom, 1);
-                    p3 = new(x_left, y_bottom, 0);
-                    a = Mathf.Abs(GetIntersectionHeightAsAlpha(p1, p2, p3, pos));
-                }
-                else if (y < y_top)
-                {
-                    a = Mathf.InverseLerp(x_left, 0, x);
+                    p2 = new(0, y0, 1);
+                    p3 = new(x0, y0, 0);
                 }
                 else
                 {
-                    p1 = new(0, y_top, 1);
+                    p1 = new(0, y0, 1);
                     p2 = new(0, h, 0);
-                    p3 = new(x_left, y_top, 0);
-                    a = Mathf.Abs(GetIntersectionHeightAsAlpha(p1, p2, p3, pos));
-                }
-            }
-            else if (x < x_right)
-            {
-                if (y < y_bottom)
-                {
-                    a = Mathf.InverseLerp(y_bottom, 0, y);
-                }
-                else if (y < y_top)
-                {
-                    a = 0;
-                }
-                else
-                {
-                    a = Mathf.InverseLerp(y_top, h, y);
+                    p3 = new(x0, y0, 0);
                 }
             }
             else
             {
-                if (y < y_bottom)
+                if (y < y0)
                 {
-                    p1 = new(x_right, 0, 1);
-                    p2 = new(x_right, y_bottom, 0);
-                    p3 = new(w, y_bottom, 0);
-                    a = Mathf.Abs(GetIntersectionHeightAsAlpha(p1, p2, p3, pos));
-                }
-                else if (y < y_top)
-                {
-                    a = Mathf.InverseLerp(x_right, w, x);
+                    p1 = new(x0, 0, 1);
+                    p2 = new(x0, y0, 0);
+                    p3 = new(w, 0, 0);
                 }
                 else
                 {
-                    p1 = new(x_right, y_top, 0);
+                    p1 = new(x0, y0, 0);
                     p2 = new(w, h, 0);
-                    p3 = new(w, y_top, 1);
-                    a = Mathf.Abs(GetIntersectionHeightAsAlpha(p1, p2, p3, pos));
+                    p3 = new(w, y0, 1);
                 }
             }
 
-            return Mathf.Clamp(a * 2, 0f, 1f);
+            float a = Mathf.Abs(GetIntersectionHeightAsAlpha(p1, p2, p3, pos));
+            return Mathf.Clamp(a * 3 - 0.2f, 0f, 1f);
         }
 
         public static float GetIntersectionHeightAsAlpha(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 pXY)
