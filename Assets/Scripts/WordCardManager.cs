@@ -16,16 +16,6 @@ namespace WordGenderApp
         [SerializeField]
         private CanvasGroup _bottomColoredBackground;
 
-        [Header("Swipe Threshold References")]
-        [SerializeField]
-        private Transform _leftThreshold;
-        [SerializeField]
-        private Transform _rightThreshold;
-        [SerializeField]
-        private Transform _topThreshold;
-        [SerializeField]
-        private Transform _bottomThreshold;
-
         [Header("Word Card References")]
         public WordCard CurrentWordCard;
         private Vector2 _wordCardDefaultPos;
@@ -107,19 +97,6 @@ namespace WordGenderApp
                     return Datatypes.SwipeArea.Top;
                 }
             }
-        }
-
-        public bool IsWithinThresholdArea(Vector2 pos)
-        {
-            float x = pos.x;
-            float y = pos.y;
-
-            float x_left = _leftThreshold.position.x;
-            float x_right = _rightThreshold.position.x;
-            float y_bottom = _bottomThreshold.position.y;
-            float y_top = _topThreshold.position.y;
-
-            return x > x_left && x < x_right && y > y_bottom && y < y_top;
         }
 
         public float DetermineGenderTagAlpha(Vector2 pos)
