@@ -28,8 +28,16 @@ namespace WordGenderApp
         private Vector2 _delta;
         private bool _fingerDownOnUpperPart;
 
-        public Datatypes.WordData WordData { get; private set; }
-        public string Word => WordData.Word;
+        private Datatypes.WordData _wordData;
+        public Datatypes.WordData WordData
+        {
+            get => _wordData;
+            set
+            {
+                _wordData = value;
+                _wordText.text = value.Word;
+            }
+        }
         public Datatypes.SwipeArea CurrentArea => _manager.DetermineSwipeArea(transform.position);
 
         private void OnValidate()
@@ -104,7 +112,7 @@ namespace WordGenderApp
                 timer += Time.deltaTime;
             }
 
-            StartCoroutine(AnimateReturnToCenter());
+            Destroy(gameObject);
         }
 
         private IEnumerator AnimateReturnToCenter()
