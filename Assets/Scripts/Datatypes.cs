@@ -16,8 +16,52 @@ namespace WordGenderApp
 
         public struct WordData
         {
-            public string Word;
             public Gender Gender;
+            public string Word;
+
+            public WordData(Gender gender, string word)
+            {
+                Gender = gender;
+                Word = word;
+            }
+
+            public WordData(string gender, string word)
+            {
+                if (TryParseToGender(gender, out Gender))
+                {
+                    Word = "GenderNotSet";
+                }
+                else
+                {
+                    Word = word;
+                }
+            }
+
+            private static bool TryParseToGender(string str, out Gender gender)
+            {
+                switch (str)
+                {
+                    case "m":
+                    case "der":
+                    case "Der":
+                        gender = Gender.m;
+                        return true;
+                    case "f":
+                    case "die":
+                    case "Die":
+                        gender = Gender.f;
+                        return true;
+                    case "n":
+                    case "das":
+                    case "Das":
+                        gender = Gender.n;
+                        return true;
+                    default:
+                        Debug.LogError("Cannot convert string to gender type! Assigning neuter by default.");
+                        gender = Gender.n;
+                        return false;
+                }
+            }
         }
 
         public enum SwipeArea
