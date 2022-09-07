@@ -29,11 +29,11 @@ namespace WordGenderApp
             {
                 if (TryParseToGender(gender, out Gender))
                 {
-                    Word = "GenderNotSet";
+                    Word = word;
                 }
                 else
                 {
-                    Word = word;
+                    Word = "GenderNotSet";
                 }
             }
 
