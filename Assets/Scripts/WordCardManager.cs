@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace WordGenderApp
 {
     public class WordCardManager : Singleton<WordCardManager>
@@ -17,7 +18,12 @@ namespace WordGenderApp
         private CanvasGroup _bottomColoredBackground;
 
         [Header("Word Card References")]
-        public WordCard CurrentWordCard;
+        [SerializeField]
+        private GameObject _wordCardPrefab;
+        [SerializeField]
+        private Transform _wordCardSpawnRoot;
+        [SerializeField]
+        private WordCard _defaultWordCard;
         private Vector2 _wordCardDefaultPos;
 
         public Dictionary<Datatypes.SwipeArea, CanvasGroup> ColoredBackgroundDict;
@@ -28,9 +34,18 @@ namespace WordGenderApp
             base.Awake();
 
             SetUpColorBackgrounds();
-            _wordCardDefaultPos = CurrentWordCard.transform.position;
+            _wordCardDefaultPos = _defaultWordCard.transform.position;
 
             InitDummyWordList();
+        }
+
+        private void Start()
+        {
+            foreach (var wordData in WordList)
+            {
+                var card = Instantiate(_wordCardPrefab, _wordCardSpawnRoot).GetComponent<WordCard>();
+                card.WordData = wordData;
+            }
         }
 
         private void InitDummyWordList()

@@ -428,7 +428,7 @@ RectTransform:
   - {fileID: 1830123708}
   - {fileID: 436591708}
   - {fileID: 1953020734}
-  - {fileID: 486249348}
+  - {fileID: 1586544466}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -874,6 +874,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572442132}
   m_CullTransparentMesh: 1
+--- !u!1 &1586544465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1586544466}
+  m_Layer: 5
+  m_Name: Word Cards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1586544466
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586544465}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 486249348}
+  m_Father: {fileID: 1005105174}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1593681536
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,7 +1232,9 @@ MonoBehaviour:
   _rightColoredBackground: {fileID: 436591709}
   _topColoredBackground: {fileID: 446891910}
   _bottomColoredBackground: {fileID: 1174181157}
-  CurrentWordCard: {fileID: 2048707745}
+  _wordCardPrefab: {fileID: 1231052096849030213, guid: 7887f13aea9764f0393964a983754497, type: 3}
+  _wordCardSpawnRoot: {fileID: 1586544466}
+  _defaultWordCard: {fileID: 2048707745}
 --- !u!4 &1964734718
 Transform:
   m_ObjectHideFlags: 0
@@ -1227,7 +1266,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1005105174}
+    m_TransformParent: {fileID: 1586544466}
     m_Modifications:
     - target: {fileID: 1443462169, guid: 7887f13aea9764f0393964a983754497, type: 3}
       propertyPath: z
@@ -1299,7 +1338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1231052096849030210, guid: 7887f13aea9764f0393964a983754497, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1231052096849030210, guid: 7887f13aea9764f0393964a983754497, type: 3}
       propertyPath: m_AnchorMax.x
