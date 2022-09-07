@@ -21,6 +21,7 @@ namespace WordGenderApp
         private Vector2 _wordCardDefaultPos;
 
         public Dictionary<Datatypes.SwipeArea, CanvasGroup> ColoredBackgroundDict;
+        public List<Datatypes.WordData> WordList = new();
 
         protected override void Awake()
         {
@@ -28,6 +29,17 @@ namespace WordGenderApp
 
             SetUpColorBackgrounds();
             _wordCardDefaultPos = CurrentWordCard.transform.position;
+
+            InitDummyWordList();
+        }
+
+        private void InitDummyWordList()
+        {
+            WordList.Add(new Datatypes.WordData("das", "Messer"));
+            WordList.Add(new Datatypes.WordData("der", "Teller"));
+            WordList.Add(new Datatypes.WordData("die", "Gabel"));
+            WordList.Add(new Datatypes.WordData("die", "Sonne"));
+            WordList.Add(new Datatypes.WordData("der", "Mond"));
         }
 
         private void SetUpColorBackgrounds()
