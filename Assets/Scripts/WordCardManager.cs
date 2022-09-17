@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace WordGenderApp
 {
     public class WordCardManager : Singleton<WordCardManager>
@@ -17,17 +18,39 @@ namespace WordGenderApp
         private CanvasGroup _bottomColoredBackground;
 
         [Header("Word Card References")]
-        public WordCard CurrentWordCard;
+        [SerializeField]
+        private GameObject _wordCardPrefab;
+        [SerializeField]
+        private Transform _wordCardSpawnRoot;
+        [SerializeField]
+        private WordCard _defaultWordCard;
         private Vector2 _wordCardDefaultPos;
 
         public Dictionary<Datatypes.SwipeArea, CanvasGroup> ColoredBackgroundDict;
+        public List<Datatypes.WordData> WordList = new();
 
         protected override void Awake()
         {
             base.Awake();
 
             SetUpColorBackgrounds();
-            _wordCardDefaultPos = CurrentWordCard.transform.position;
+            _wordCardDefaultPos = _defaultWordCard.transform.position;
+
+            InitDummyWordList();
+        }
+
+        private void Start()
+        {
+            foreach (var wordData in WordList)
+            {
+                var card = Instantiate(_wordCardPrefab, _wordCardSpawnRoot).GetComponent<WordCard>();
+                card.WordData = wordData;
+            }
+        }
+
+        private void InitDummyWordList()
+        {
+            WordList = WordLoader.LoadWords();
         }
 
         private void SetUpColorBackgrounds()
@@ -41,6 +64,8 @@ namespace WordGenderApp
             };
         }
 
+        // Illustration of the division of four swipe areas.
+        // The central intersection corresponds to the position of the word card.
         // --------------------
         // |\                /|
         // | \              / |
@@ -57,6 +82,11 @@ namespace WordGenderApp
         // |  /     B      \  |
         // |/                \|
         // --------------------
+        /// <summary>
+        /// Determine which swipe area a 2D position falls into.
+        /// </summary>
+        /// <param name="point">2D position of a point to be examined.</param>
+        /// <returns>The area that the given point falls into.</returns>
         public Datatypes.SwipeArea DetermineSwipeArea(Vector2 point)
         {
             float x = point.x;
@@ -99,6 +129,12 @@ namespace WordGenderApp
             }
         }
 
+        /// <summary>
+        /// Determine how transparent the gender tag (and the background) should be
+        /// as per the position of the word card. See /Docs/SwipeAreaAlpha.md for details.
+        /// </summary>
+        /// <param name="pos">Position of the word card.</param>
+        /// <returns>A value between 0 and 1 as the alpha of the gender tag (and the backaground)</returns>
         public float DetermineGenderTagAlpha(Vector2 pos)
         {
             float x = pos.x;
@@ -148,10 +184,19 @@ namespace WordGenderApp
             return Mathf.Clamp(a * 3 - 0.2f, 0f, 1f);
         }
 
-        public static float GetIntersectionHeightAsAlpha(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 pXY)
+        /// <summary>
+        /// Given a plane formed by three points, shoot a ray from a point xy plane, and get the
+        /// distance of the raycast on this plane. The value is thus the height for this point.
+        /// </summary>
+        /// <param name="p1">1st 3D point to form a plane.</param>
+        /// <param name="p2">2nd 3D point to form a plane.</param>
+        /// <param name="p3">3rd 3D point to form a plane.</param>
+        /// <param name="pXY">Any point from the xy plane to be examined.</param>
+        /// <returns>The z value i.e. the height of the intersection of the up-shooting ray and the plane.</returns>
+        public static float GetIntersectionHeightAsAlpha(Vector3 p1, Vector3 p2, Vector3 p3, Vector2 pXY)
         {
             Plane plane = new(p1, p2, p3);
-            Ray ray = new(origin: pXY, direction: Vector3.forward);
+            Ray ray = new(origin: pXY, direction: new Vector3(0f, 0f, 1f));
             plane.Raycast(ray, out float z);
             return z;
         } 
