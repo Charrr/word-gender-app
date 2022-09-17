@@ -50,11 +50,7 @@ namespace WordGenderApp
 
         private void InitDummyWordList()
         {
-            WordList.Add(new Datatypes.WordData("das", "Messer"));
-            WordList.Add(new Datatypes.WordData("der", "Teller"));
-            WordList.Add(new Datatypes.WordData("die", "Gabel"));
-            WordList.Add(new Datatypes.WordData("die", "Sonne"));
-            WordList.Add(new Datatypes.WordData("der", "Mond"));
+            WordList = WordLoader.LoadWords();
         }
 
         private void SetUpColorBackgrounds()
