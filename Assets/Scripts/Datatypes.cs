@@ -4,72 +4,69 @@ using UnityEngine;
 
 namespace WordGenderApp
 {
-
-    public static class Datatypes
+    public enum Gender
     {
-        public enum Gender
+        m,
+        f,
+        n
+    }
+
+    public struct WordData
+    {
+        public Gender Gender;
+        public string Word;
+
+        public WordData(Gender gender, string word)
         {
-            m,
-            f,
-            n
+            Gender = gender;
+            Word = word;
         }
 
-        public struct WordData
+        public WordData(string gender, string word)
         {
-            public Gender Gender;
-            public string Word;
-
-            public WordData(Gender gender, string word)
+            if (TryParseToGender(gender, out Gender))
             {
-                Gender = gender;
                 Word = word;
             }
-
-            public WordData(string gender, string word)
+            else
             {
-                if (TryParseToGender(gender, out Gender))
-                {
-                    Word = word;
-                }
-                else
-                {
-                    Word = "GenderNotSet";
-                }
-            }
-
-            private static bool TryParseToGender(string str, out Gender gender)
-            {
-                switch (str)
-                {
-                    case "m":
-                    case "der":
-                    case "Der":
-                        gender = Gender.m;
-                        return true;
-                    case "f":
-                    case "die":
-                    case "Die":
-                        gender = Gender.f;
-                        return true;
-                    case "n":
-                    case "das":
-                    case "Das":
-                        gender = Gender.n;
-                        return true;
-                    default:
-                        Debug.LogError("Cannot convert string to gender type! Assigning neuter by default.");
-                        gender = Gender.n;
-                        return false;
-                }
+                Word = "GenderNotSet";
             }
         }
 
-        public enum SwipeArea
+        private static bool TryParseToGender(string str, out Gender gender)
         {
-            Left,
-            Right,
-            Bottom,
-            Top,
+            switch (str)
+            {
+                case "m":
+                case "der":
+                case "Der":
+                    gender = Gender.m;
+                    return true;
+                case "f":
+                case "die":
+                case "Die":
+                    gender = Gender.f;
+                    return true;
+                case "n":
+                case "das":
+                case "Das":
+                    gender = Gender.n;
+                    return true;
+                default:
+                    Debug.LogError("Cannot convert string to gender type! Assigning neuter by default.");
+                    gender = Gender.n;
+                    return false;
+            }
         }
     }
+
+    public enum SwipeArea
+    {
+        Left,
+        Right,
+        Bottom,
+        Top,
+    }
+
 }

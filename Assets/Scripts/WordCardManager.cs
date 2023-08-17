@@ -26,8 +26,8 @@ namespace WordGenderApp
         private WordCard _defaultWordCard;
         private Vector2 _wordCardDefaultPos;
 
-        public Dictionary<Datatypes.SwipeArea, CanvasGroup> ColoredBackgroundDict;
-        public List<Datatypes.WordData> WordList = new();
+        public Dictionary<SwipeArea, CanvasGroup> ColoredBackgroundDict;
+        public List<WordData> WordList = new();
 
         protected override void Awake()
         {
@@ -57,10 +57,10 @@ namespace WordGenderApp
         {
             ColoredBackgroundDict = new()
             {
-                { Datatypes.SwipeArea.Left, _leftColoredBackground },
-                { Datatypes.SwipeArea.Right, _rightColoredBackground },
-                { Datatypes.SwipeArea.Top, _topColoredBackground },
-                { Datatypes.SwipeArea.Bottom, _bottomColoredBackground }
+                { SwipeArea.Left, _leftColoredBackground },
+                { SwipeArea.Right, _rightColoredBackground },
+                { SwipeArea.Top, _topColoredBackground },
+                { SwipeArea.Bottom, _bottomColoredBackground }
             };
         }
 
@@ -87,7 +87,7 @@ namespace WordGenderApp
         /// </summary>
         /// <param name="point">2D position of a point to be examined.</param>
         /// <returns>The area that the given point falls into.</returns>
-        public Datatypes.SwipeArea DetermineSwipeArea(Vector2 point)
+        public SwipeArea DetermineSwipeArea(Vector2 point)
         {
             float x = point.x;
             float y = point.y;
@@ -101,30 +101,30 @@ namespace WordGenderApp
             {
                 if (y < Mathf.Lerp(0f, y0, x / x0))
                 {
-                    return Datatypes.SwipeArea.Bottom;
+                    return SwipeArea.Bottom;
                 }
                 else if (y < Mathf.Lerp(h, y0, x / x0))
                 {
-                    return Datatypes.SwipeArea.Left;
+                    return SwipeArea.Left;
                 }
                 else
                 {
-                    return Datatypes.SwipeArea.Top;
+                    return SwipeArea.Top;
                 }
             }
             else
             {
                 if (y < Mathf.Lerp(0, y0, (w - x) / (w - x0)))
                 {
-                    return Datatypes.SwipeArea.Bottom;
+                    return SwipeArea.Bottom;
                 }
                 else if (y < Mathf.Lerp(h, y0, (w - x) / (w - x0)))
                 {
-                    return Datatypes.SwipeArea.Right;
+                    return SwipeArea.Right;
                 }
                 else
                 {
-                    return Datatypes.SwipeArea.Top;
+                    return SwipeArea.Top;
                 }
             }
         }

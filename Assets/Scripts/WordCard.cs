@@ -28,8 +28,8 @@ namespace WordGenderApp
         private Vector2 _delta;
         private bool _fingerDownOnUpperPart;
 
-        private Datatypes.WordData _wordData;
-        public Datatypes.WordData WordData
+        private WordData _wordData;
+        public WordData WordData
         {
             get => _wordData;
             set
@@ -38,7 +38,7 @@ namespace WordGenderApp
                 _wordText.text = value.Word;
             }
         }
-        public Datatypes.SwipeArea CurrentArea => _manager.DetermineSwipeArea(transform.position);
+        public SwipeArea CurrentArea => _manager.DetermineSwipeArea(transform.position);
 
         private void OnValidate()
         {
@@ -79,19 +79,19 @@ namespace WordGenderApp
             var area = _manager.DetermineSwipeArea(transform.position);
             switch (area)
             {
-                case Datatypes.SwipeArea.Left:
+                case SwipeArea.Left:
                     Debug.Log("Der");
                     StartCoroutine(AnimateSwipingCardAway());
                     break;
-                case Datatypes.SwipeArea.Right:
+                case SwipeArea.Right:
                     Debug.Log("Die");
                     StartCoroutine(AnimateSwipingCardAway());
                     break;
-                case Datatypes.SwipeArea.Top:
+                case SwipeArea.Top:
                     Debug.Log("Das");
                     StartCoroutine(AnimateSwipingCardAway());
                     break;
-                case Datatypes.SwipeArea.Bottom:
+                case SwipeArea.Bottom:
                     Debug.Log("Idk?");
                     StartCoroutine(AnimateSwipingCardAway());
                     break;

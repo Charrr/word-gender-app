@@ -9,7 +9,7 @@ namespace WordGenderApp
     public class GenderTag : MonoBehaviour
     {
         [SerializeField]
-        private Datatypes.SwipeArea _swipeDirection;
+        private SwipeArea _swipeDirection;
         private WordCard _wordCard;
         public WordCard WordCard
         {
