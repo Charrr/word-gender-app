@@ -346,15 +346,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3283389909425192389, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
       propertyPath: m_Color.b
-      value: 0.8584906
+      value: 0.7254902
       objectReference: {fileID: 0}
     - target: {fileID: 3283389909425192389, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
       propertyPath: m_Color.g
-      value: 0.84555775
+      value: 0.7254902
       objectReference: {fileID: 0}
     - target: {fileID: 3283389909425192389, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
       propertyPath: m_Color.r
-      value: 0.7248576
+      value: 0.7254902
       objectReference: {fileID: 0}
     - target: {fileID: 5173856331914480435, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
       propertyPath: m_text
@@ -408,8 +408,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _swipeDirection: 2
-  _referenceLine: {fileID: 0}
-  _wordCard: {fileID: 7108983208382339045}
 --- !u!224 &2155659112718475892 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2291223916693713287, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
@@ -528,15 +526,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3283389909425192389, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
       propertyPath: m_Color.b
-      value: 0.3018868
+      value: 0.1509434
       objectReference: {fileID: 0}
     - target: {fileID: 3283389909425192389, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
       propertyPath: m_Color.g
-      value: 0.3018868
+      value: 0.1509434
       objectReference: {fileID: 0}
     - target: {fileID: 3283389909425192389, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
       propertyPath: m_Color.r
-      value: 0.3018868
+      value: 0.1509434
       objectReference: {fileID: 0}
     - target: {fileID: 5173856331914480435, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
       propertyPath: m_text
@@ -574,8 +572,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _swipeDirection: 0
-  _referenceLine: {fileID: 0}
-  _wordCard: {fileID: 7108983208382339045}
 --- !u!224 &2062307417904193070 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2291223916693713287, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
@@ -732,8 +728,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _swipeDirection: 3
-  _referenceLine: {fileID: 0}
-  _wordCard: {fileID: 7108983208382339045}
 --- !u!224 &1734325713513900199 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2291223916693713287, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
@@ -882,8 +876,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _swipeDirection: 1
-  _referenceLine: {fileID: 0}
-  _wordCard: {fileID: 7108983208382339045}
 --- !u!224 &6711346122314111742 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2291223916693713287, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
