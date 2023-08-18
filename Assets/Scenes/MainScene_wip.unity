@@ -1416,6 +1416,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Word Card
       objectReference: {fileID: 0}
+    - target: {fileID: 1231052096849030213, guid: 7887f13aea9764f0393964a983754497, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3321201240586578795, guid: 7887f13aea9764f0393964a983754497, type: 3}
       propertyPath: _referenceLine
       value: 

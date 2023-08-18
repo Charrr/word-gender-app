@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
 
 namespace WordGenderApp
 {
@@ -40,6 +41,8 @@ namespace WordGenderApp
         }
         public SwipeArea CurrentArea => _manager.DetermineSwipeArea(transform.position);
 
+        public event Action<Result> OnResult;
+
         private void OnValidate()
         {
             if (!_wordText) _wordText = GetComponentInChildren<TMP_Text>();
@@ -49,6 +52,10 @@ namespace WordGenderApp
         {
             _manager = WordCardManager.Instance;
             _defaultPosition = transform.position;
+            OnResult += res =>
+            {
+                Debug.Log($"{res}. {_wordData.ToPrint()}");
+            };
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -77,25 +84,35 @@ namespace WordGenderApp
             }
 
             var area = _manager.DetermineSwipeArea(transform.position);
+
             switch (area)
             {
                 case SwipeArea.Left:
                     Debug.Log("Der");
+                    OnResult?.Invoke(GetResult(Gender.m));
                     StartCoroutine(AnimateSwipingCardAway());
                     break;
                 case SwipeArea.Right:
                     Debug.Log("Die");
+                    OnResult?.Invoke(GetResult(Gender.f));
                     StartCoroutine(AnimateSwipingCardAway());
                     break;
                 case SwipeArea.Top:
                     Debug.Log("Das");
+                    OnResult?.Invoke(GetResult(Gender.n));
                     StartCoroutine(AnimateSwipingCardAway());
                     break;
                 case SwipeArea.Bottom:
                     Debug.Log("Idk?");
+                    OnResult?.Invoke(Result.Idk);
                     StartCoroutine(AnimateSwipingCardAway());
                     break;
             }
+        }
+
+        private Result GetResult(Gender target)
+        {
+            return _wordData.Gender == target ? Result.Correct : Result.Incorrect;
         }
 
         private IEnumerator AnimateSwipingCardAway()

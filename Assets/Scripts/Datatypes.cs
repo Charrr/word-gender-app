@@ -16,6 +16,18 @@ namespace WordGenderApp
         public Gender Gender;
         public string Word;
 
+        public string ToPrint()
+        {
+            string g = Gender switch
+            {
+                Gender.m => "Der",
+                Gender.f => "Die",
+                Gender.n => "Das",
+                _ => ""
+            };
+            return $"{g} {Word}";
+        }
+
         public WordData(Gender gender, string word)
         {
             Gender = gender;
@@ -66,7 +78,13 @@ namespace WordGenderApp
         Left,
         Right,
         Bottom,
-        Top,
+        Top
     }
 
+    public enum Result
+    {
+        Correct,
+        Incorrect,
+        Idk
+    }
 }
