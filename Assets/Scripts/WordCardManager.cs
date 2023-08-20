@@ -7,16 +7,6 @@ namespace WordGenderApp
 {
     public class WordCardManager : Singleton<WordCardManager>
     {
-        [Header("Colored Background References")]
-        [SerializeField]
-        private CanvasGroup _leftColoredBackground;
-        [SerializeField]
-        private CanvasGroup _rightColoredBackground;
-        [SerializeField]
-        private CanvasGroup _topColoredBackground;
-        [SerializeField]
-        private CanvasGroup _bottomColoredBackground;
-
         [Header("Word Card References")]
         [SerializeField]
         private GameObject _wordCardPrefab;
@@ -33,7 +23,6 @@ namespace WordGenderApp
         {
             base.Awake();
 
-            SetUpColorBackgrounds();
             _wordCardDefaultPos = _defaultWordCard.transform.position;
 
             InitDummyWordList();
@@ -51,17 +40,6 @@ namespace WordGenderApp
         private void InitDummyWordList()
         {
             WordList = WordLoader.LoadWords();
-        }
-
-        private void SetUpColorBackgrounds()
-        {
-            ColoredBackgroundDict = new()
-            {
-                { SwipeArea.Left, _leftColoredBackground },
-                { SwipeArea.Right, _rightColoredBackground },
-                { SwipeArea.Top, _topColoredBackground },
-                { SwipeArea.Bottom, _bottomColoredBackground }
-            };
         }
 
         // Illustration of the division of four swipe areas.

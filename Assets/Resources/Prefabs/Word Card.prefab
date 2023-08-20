@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _swipeAwaySpeed: 40
-  _returnToCenterDuration: 0.03
+  _returnToCenterOnEndDragDuration: 0.05
   _rotateRate: 0.03
   _wordText: {fileID: 1231052097943328382}
 --- !u!1 &1231052097943328368
@@ -358,7 +358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5173856331914480435, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
       propertyPath: m_text
-      value: I don't know :(
+      value: I don't know :/
       objectReference: {fileID: 0}
     - target: {fileID: 5173856331914480435, guid: c3eb12fb993d747208cf1f739aa70000, type: 3}
       propertyPath: m_fontSize

@@ -27,6 +27,7 @@ namespace WordGenderApp
         private TMP_Text _wordText;
 
         private WordCardManager _manager;
+        private BackgroundColorController _backgroundCtrl;
         private Vector3 _defaultPosition;
         private Vector2 _delta;
         private bool _fingerDownOnUpperPart;
@@ -53,6 +54,7 @@ namespace WordGenderApp
         private void Start()
         {
             _manager = WordCardManager.Instance;
+            _backgroundCtrl = BackgroundColorController.Instance;
             _defaultPosition = transform.position;
             OnResult += HandleResult;
         }
@@ -60,6 +62,7 @@ namespace WordGenderApp
         private void OnDestroy()
         {
             OnResult = null;
+            _backgroundCtrl.ResetColor();
         }
 
         public void OnDrag(PointerEventData eventData)

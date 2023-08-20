@@ -22,16 +22,10 @@ namespace WordGenderApp
         }
 
         private CanvasGroup _cg;
-        private CanvasGroup _coloredBackground;
 
         private void Awake()
         {
             _cg = GetComponent<CanvasGroup>();
-        }
-
-        private void Start()
-        {
-            _coloredBackground = WordCardManager.Instance.ColoredBackgroundDict[_swipeDirection];
         }
 
         private void Update()
@@ -45,13 +39,13 @@ namespace WordGenderApp
             if (WordCard.CurrentArea == _swipeDirection)
             {
                 a = WordCardManager.Instance.DetermineGenderTagAlpha(WordCard.transform.position);
+                BackgroundColorController.Instance.SetColorPerSwipeArea(_swipeDirection, a);
             }
             else
             {
                 a = 0;
             }
 
-            _coloredBackground.alpha = a;
             _cg.alpha = a;
         }
     }
