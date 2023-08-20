@@ -40,6 +40,7 @@ namespace WordGenderApp
         /// Which area the current card belongs to at this moment.
         /// </summary>
         public SwipeArea CurrentCardArea => DetermineSwipeArea(CurrentCard.transform.position);
+        public bool ShouldUpdateBackground { get; set; } = true;
 
         /// <summary>
         /// A value between 0 and 1 that represents how much a card is decided to be swiped to one area.
@@ -54,10 +55,10 @@ namespace WordGenderApp
             //Gizmos.DrawSphere(_defaultWordCard.transform.position, 10f);
 
             Vector2[] corners = new Vector2[] {
-            new Vector2(0, 0),
-            new Vector2(0, 1),
-            new Vector2(1, 0),
-            new Vector2(1, 1),
+                new Vector2(0, 0),
+                new Vector2(0, 1),
+                new Vector2(1, 0),
+                new Vector2(1, 1),
             };
 
             foreach (var corner in corners)
@@ -82,14 +83,14 @@ namespace WordGenderApp
         private void Update()
         {
             if (CurrentCard == null)
-            {
                 return;
-            }
 
             float alpha = CurrentCardDecisionAlpha;
             SwipeArea area = CurrentCardArea;
             CurrentCard.UpdateTagAppearances(area, alpha);
-            BackgroundManager.Instance.SwipeAreaBackground.SetColorPerSwipeArea(area, alpha);
+
+            if (ShouldUpdateBackground)
+                BackgroundManager.Instance.SwipeAreaBackground.SetColorPerSwipeArea(area, alpha);
         }
 
         private void InitDummyWordList()

@@ -44,7 +44,6 @@ namespace WordGenderApp
                 _wordText.text = value.Word;
             }
         }
-        public SwipeArea CurrentArea => _manager.DetermineSwipeArea(transform.position);
 
         public event Action<Result> OnResult;
 
@@ -79,6 +78,7 @@ namespace WordGenderApp
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            _manager.ShouldUpdateBackground = true;
             var fingerPos = eventData.position;
             _fingerDownOnUpperPart = fingerPos.y < _defaultPosition.y;
         }
@@ -123,15 +123,24 @@ namespace WordGenderApp
         private void HandleResult(Result res)
         {
             Debug.Log($"{res}. {_wordData.ToPrint()}");
-            if (res == Result.Incorrect)
+
+            switch (res)
             {
-                StartCoroutine(AnimateReturnToCenter(_returnToCenterOnIncorrectDuration));
-                // TODO: Some other visual feedback like changing background color.
+                case Result.Correct:
+                    _backgroundMngr.ResultBackground.DipToCorrectColor();
+                    StartCoroutine(AnimateSwipingCardAway(destroyAfterwards: true));
+                    break;
+                case Result.Incorrect:
+                    _backgroundMngr.ResultBackground.DipToIncorrectColor();
+                    StartCoroutine(AnimateReturnToCenter(_returnToCenterOnIncorrectDuration));
+                    break;
+                case Result.Idk:
+                    StartCoroutine(AnimateSwipingCardAway(destroyAfterwards: true));
+                    break;
             }
-            else
-            {
-                StartCoroutine(AnimateSwipingCardAway(destroyAfterwards: true));
-            }
+
+            _manager.ShouldUpdateBackground = false;
+            _backgroundMngr.SwipeAreaBackground.FadeOut();
         }
 
         private IEnumerator AnimateSwipingCardAway(bool destroyAfterwards = false)
