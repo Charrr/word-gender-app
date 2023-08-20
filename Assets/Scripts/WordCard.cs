@@ -14,8 +14,10 @@ namespace WordGenderApp
         [Range(1f, 300f)]
         private float _swipeAwaySpeed = 120f;
         [SerializeField]
-        [Range(0.01f, 0.2f)]
-        private float _returnToCenterDuration = 0.05f;
+        [Range(0.01f, 0.5f)]
+        private float _returnToCenterOnEndDragDuration = 0.05f;
+        [Range(0.01f, 0.5f)]
+        private float _returnToCenterOnIncorrectDuration = 0.2f;
         [SerializeField]
         [Range(0f, 0.2f)]
         private float _rotateRate = 0.03f;
@@ -52,10 +54,12 @@ namespace WordGenderApp
         {
             _manager = WordCardManager.Instance;
             _defaultPosition = transform.position;
-            OnResult += res =>
-            {
-                Debug.Log($"{res}. {_wordData.ToPrint()}");
-            };
+            OnResult += HandleResult;
+        }
+
+        private void OnDestroy()
+        {
+            OnResult = null;
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -79,7 +83,7 @@ namespace WordGenderApp
             if (_manager.DetermineGenderTagAlpha(transform.position) < 0.5f)
             {
                 Debug.Log("(stays)");
-                StartCoroutine(AnimateReturnToCenter());
+                StartCoroutine(AnimateReturnToCenter(_returnToCenterOnEndDragDuration));
                 return;
             }
 
@@ -90,22 +94,18 @@ namespace WordGenderApp
                 case SwipeArea.Left:
                     Debug.Log("Der");
                     OnResult?.Invoke(GetResult(Gender.m));
-                    StartCoroutine(AnimateSwipingCardAway());
                     break;
                 case SwipeArea.Right:
                     Debug.Log("Die");
                     OnResult?.Invoke(GetResult(Gender.f));
-                    StartCoroutine(AnimateSwipingCardAway());
                     break;
                 case SwipeArea.Top:
                     Debug.Log("Das");
                     OnResult?.Invoke(GetResult(Gender.n));
-                    StartCoroutine(AnimateSwipingCardAway());
                     break;
                 case SwipeArea.Bottom:
                     Debug.Log("Idk?");
                     OnResult?.Invoke(Result.Idk);
-                    StartCoroutine(AnimateSwipingCardAway());
                     break;
             }
         }
@@ -115,7 +115,21 @@ namespace WordGenderApp
             return _wordData.Gender == target ? Result.Correct : Result.Incorrect;
         }
 
-        private IEnumerator AnimateSwipingCardAway()
+        private void HandleResult(Result res)
+        {
+            Debug.Log($"{res}. {_wordData.ToPrint()}");
+            if (res == Result.Incorrect)
+            {
+                StartCoroutine(AnimateReturnToCenter(_returnToCenterOnIncorrectDuration));
+                // TODO: Some other visual feedback like changing background color.
+            }
+            else
+            {
+                StartCoroutine(AnimateSwipingCardAway(destroyAfterwards: true));
+            }
+        }
+
+        private IEnumerator AnimateSwipingCardAway(bool destroyAfterwards = false)
         {
             float animDuration = 1f;
             Vector3 endPos = transform.position;
@@ -129,12 +143,12 @@ namespace WordGenderApp
                 timer += Time.deltaTime;
             }
 
-            Destroy(gameObject);
+            if (destroyAfterwards)
+                Destroy(gameObject);
         }
 
-        private IEnumerator AnimateReturnToCenter()
+        private IEnumerator AnimateReturnToCenter(float duration)
         {
-            float animDuration = _returnToCenterDuration;
             Vector3 startPos = transform.position;
             Vector3 endPos = _defaultPosition;
 
@@ -142,9 +156,9 @@ namespace WordGenderApp
             Quaternion endRot = Quaternion.identity;
 
             float timer = 0f;
-            while (timer < animDuration)
+            while (timer < duration)
             {
-                float t = timer / animDuration;
+                float t = timer / duration;
                 transform.position = Vector3.Lerp(startPos, endPos, t);
                 transform.localRotation = Quaternion.Lerp(startRot, endRot, t);
                 yield return null;
