@@ -39,7 +39,7 @@ namespace WordGenderApp
             if (WordCard.CurrentArea == _swipeDirection)
             {
                 a = WordCardManager.Instance.DetermineGenderTagAlpha(WordCard.transform.position);
-                BackgroundColorController.Instance.SetColorPerSwipeArea(_swipeDirection, a);
+                BackgroundManager.Instance.SwipeAreaBackground.SetColorPerSwipeArea(_swipeDirection, a);
             }
             else
             {

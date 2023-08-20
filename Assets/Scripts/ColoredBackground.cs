@@ -5,32 +5,40 @@ using UnityEngine.UI;
 
 namespace WordGenderApp
 {
-    [RequireComponent(typeof(Image))]
+    [RequireComponent(typeof(Image), typeof(CanvasGroup))]
     public class ColoredBackground : MonoBehaviour
     {
         [SerializeField]
-        private Image _imgBackground;
+        protected Image m_ImgBackground;
+        [SerializeField]
+        protected CanvasGroup m_CanvasGroup;
 
         private void Reset()
         {
-            _imgBackground = GetComponent<Image>();
+            m_ImgBackground = GetComponent<Image>();
+            m_CanvasGroup = GetComponent<CanvasGroup>();
         }
 
         public void SetColor(Color color)
         {
-            _imgBackground.color = color;
+            m_ImgBackground.color = color;
+        }
+
+        public void SetAlpha(float alpha)
+        {
+            m_CanvasGroup.alpha = alpha;
         }
 
         public IEnumerator AnimateChangeColor(Color endColor, float duration = 0.1f)
         {
-            Color startCol = _imgBackground.color;
+            Color startCol = m_ImgBackground.color;
             float timer = 0f;
             while (timer < duration)
             {
                 yield return null;
-                _imgBackground.color = Color.Lerp(startCol, endColor, timer / duration);
+                m_ImgBackground.color = Color.Lerp(startCol, endColor, timer / duration);
             }
-            _imgBackground.color = endColor;
+            m_ImgBackground.color = endColor;
         }
 
     }

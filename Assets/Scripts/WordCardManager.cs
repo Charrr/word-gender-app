@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace WordGenderApp
 {
     public class WordCardManager : Singleton<WordCardManager>
@@ -19,27 +18,50 @@ namespace WordGenderApp
         public Dictionary<SwipeArea, CanvasGroup> ColoredBackgroundDict;
         public List<WordData> WordList = new();
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = new Color(0.2f, 0.2f, 1f, 0.5f);
+            //Gizmos.DrawSphere(_defaultWordCard.transform.position, 10f);
+
+            Vector2[] corners = new Vector2[] {
+            new Vector2(0, 0),
+            new Vector2(0, 1),
+            new Vector2(1, 0),
+            new Vector2(1, 1),
+            };
+
+            foreach (var corner in corners)
+            {
+                Gizmos.DrawLine(_defaultWordCard.transform.position, Camera.main.ViewportToScreenPoint(corner));
+            }
+        }
+
         protected override void Awake()
         {
             base.Awake();
-
-            _wordCardDefaultPos = _defaultWordCard.transform.position;
-
             InitDummyWordList();
         }
 
         private void Start()
         {
-            foreach (var wordData in WordList)
-            {
-                var card = Instantiate(_wordCardPrefab, _wordCardSpawnRoot).GetComponent<WordCard>();
-                card.WordData = wordData;
-            }
+            InstantiateWordCardsFromList();
+            _wordCardDefaultPos = _defaultWordCard.transform.position;
+            _defaultWordCard.gameObject.SetActive(false);
         }
 
         private void InitDummyWordList()
         {
             WordList = WordLoader.LoadWords();
+        }
+
+        private void InstantiateWordCardsFromList()
+        {
+            foreach (var wordData in WordList)
+            {
+                var card = Instantiate(_wordCardPrefab, _wordCardSpawnRoot).GetComponent<WordCard>();
+                card.WordData = wordData;
+                card.gameObject.name = "Word Card - " + card.WordData.Word;
+            }
         }
 
         // Illustration of the division of four swipe areas.
@@ -177,6 +199,6 @@ namespace WordGenderApp
             Ray ray = new(origin: pXY, direction: new Vector3(0f, 0f, 1f));
             plane.Raycast(ray, out float z);
             return z;
-        } 
+        }
     }
 }
