@@ -15,8 +15,38 @@ namespace WordGenderApp
         private WordCard _defaultWordCard;
         private Vector2 _wordCardDefaultPos;
 
-        public Dictionary<SwipeArea, CanvasGroup> ColoredBackgroundDict;
         public List<WordData> WordList = new();
+
+        /// <summary>
+        /// The word card on top layer of the UI, which is the last child under the spawn root.
+        /// </summary>
+        public WordCard CurrentCard
+        {
+            get
+            {
+                int count = _wordCardSpawnRoot.childCount;
+                if (count > 0)
+                {
+                    return _wordCardSpawnRoot.GetChild(count - 1).GetComponent<WordCard>();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Which area the current card belongs to at this moment.
+        /// </summary>
+        public SwipeArea CurrentCardArea => DetermineSwipeArea(CurrentCard.transform.position);
+
+        /// <summary>
+        /// A value between 0 and 1 that represents how much a card is decided to be swiped to one area.
+        /// 0 corresponds to the state where the card lies untouched at the center.
+        /// 1 corresponds to states when the user has fully dragged a card 
+        /// </summary>
+        public float CurrentCardDecisionAlpha => DetermineDecisionAlpha(CurrentCard.transform.position);
 
         private void OnDrawGizmos()
         {
@@ -47,6 +77,19 @@ namespace WordGenderApp
             InstantiateWordCardsFromList();
             _wordCardDefaultPos = _defaultWordCard.transform.position;
             _defaultWordCard.gameObject.SetActive(false);
+        }
+
+        private void Update()
+        {
+            if (CurrentCard == null)
+            {
+                return;
+            }
+
+            float alpha = CurrentCardDecisionAlpha;
+            SwipeArea area = CurrentCardArea;
+            CurrentCard.UpdateTagAppearances(area, alpha);
+            BackgroundManager.Instance.SwipeAreaBackground.SetColorPerSwipeArea(area, alpha);
         }
 
         private void InitDummyWordList()
@@ -135,7 +178,7 @@ namespace WordGenderApp
         /// </summary>
         /// <param name="pos">Position of the word card.</param>
         /// <returns>A value between 0 and 1 as the alpha of the gender tag (and the backaground)</returns>
-        public float DetermineGenderTagAlpha(Vector2 pos)
+        public float DetermineDecisionAlpha(Vector2 pos)
         {
             float x = pos.x;
             float y = pos.y;

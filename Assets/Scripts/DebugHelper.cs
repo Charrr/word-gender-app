@@ -27,7 +27,7 @@ namespace WordGenderApp
             TestPosition = TestTransform.position;
             PivotPosition = TestTransform.GetComponent<RectTransform>().anchoredPosition;
 
-            if (Application.isPlaying) z = WordCardManager.Instance.DetermineGenderTagAlpha(TestPosition);
+            if (Application.isPlaying) z = WordCardManager.Instance.DetermineDecisionAlpha(TestPosition);
         }
     }
 }

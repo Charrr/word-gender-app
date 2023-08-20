@@ -98,6 +98,11 @@ MonoBehaviour:
   _returnToCenterOnEndDragDuration: 0.05
   _rotateRate: 0.03
   _wordText: {fileID: 1231052097943328382}
+  _genderTags:
+  - {fileID: 4154779340154207033}
+  - {fileID: 3321201240586578795}
+  - {fileID: 8107994378400993527}
+  - {fileID: 8221317926882419810}
 --- !u!1 &1231052097943328368
 GameObject:
   m_ObjectHideFlags: 0

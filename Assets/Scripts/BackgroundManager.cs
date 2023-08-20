@@ -10,5 +10,10 @@ namespace WordGenderApp
         public GameObject FallBackBackground;
         public SwipeAreaColoredBackground SwipeAreaBackground;
         public ResultColoredBackground ResultBackground;
+
+        public void SetSwipeAreaBackgroundColor(SwipeArea area, float alpha)
+        {
+            SwipeAreaBackground.SetColorPerSwipeArea(area, alpha);
+        }
     }
 }

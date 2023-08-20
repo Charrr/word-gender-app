@@ -25,6 +25,8 @@ namespace WordGenderApp
         [Header("Object References")]
         [SerializeField]
         private TMP_Text _wordText;
+        [SerializeField]
+        private GenderTag[] _genderTags;
 
         private WordCardManager _manager;
         private BackgroundManager _backgroundMngr;
@@ -46,9 +48,10 @@ namespace WordGenderApp
 
         public event Action<Result> OnResult;
 
-        private void OnValidate()
+        private void Reset()
         {
             if (!_wordText) _wordText = GetComponentInChildren<TMP_Text>();
+            _genderTags = GetComponentsInChildren<GenderTag>(true);
         }
 
         private void Start()
@@ -82,7 +85,7 @@ namespace WordGenderApp
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (_manager.DetermineGenderTagAlpha(transform.position) < 0.5f)
+            if (_manager.DetermineDecisionAlpha(transform.position) < 0.5f)
             {
                 Debug.Log("(stays)");
                 StartCoroutine(AnimateReturnToCenter(_returnToCenterOnEndDragDuration));
@@ -168,6 +171,14 @@ namespace WordGenderApp
             }
             transform.position = _defaultPosition;
             transform.localRotation = Quaternion.identity;
+        }
+
+        public void UpdateTagAppearances(SwipeArea area, float alpha)
+        {
+            foreach (var tag in _genderTags)
+            {
+                tag.UpdateAlpha(area, alpha);
+            }
         }
     }
 }

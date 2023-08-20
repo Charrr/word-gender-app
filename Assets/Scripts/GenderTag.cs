@@ -10,43 +10,25 @@ namespace WordGenderApp
     {
         [SerializeField]
         private SwipeArea _swipeDirection;
-        private WordCard _wordCard;
-        public WordCard WordCard
-        {
-            get
-            {
-                if (!_wordCard)
-                    _wordCard = GetComponentInParent<WordCard>();
-                return _wordCard;
-            }
-        }
 
         private CanvasGroup _cg;
 
         private void Awake()
         {
             _cg = GetComponent<CanvasGroup>();
+            _cg.alpha = 0f;
         }
 
-        private void Update()
+        public void UpdateAlpha(SwipeArea targetArea, float targetAlpha)
         {
-            UpdateGenderColors();
-        }
-
-        private void UpdateGenderColors()
-        {
-            float a;
-            if (WordCard.CurrentArea == _swipeDirection)
+            if (targetArea == _swipeDirection)
             {
-                a = WordCardManager.Instance.DetermineGenderTagAlpha(WordCard.transform.position);
-                BackgroundManager.Instance.SwipeAreaBackground.SetColorPerSwipeArea(_swipeDirection, a);
+                _cg.alpha = targetAlpha;
             }
             else
             {
-                a = 0;
+                _cg.alpha = 0f;
             }
-
-            _cg.alpha = a;
         }
     }
 }
