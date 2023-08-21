@@ -12,7 +12,7 @@ namespace WordGenderApp
         [Header("Custom Parameters")]
         [SerializeField]
         [Range(1f, 300f)]
-        private float _swipeAwaySpeed = 120f;
+        private float _swipeAwaySpeed = 40f;
         [SerializeField]
         [Range(0.01f, 0.5f)]
         private float _returnToCenterOnEndDragDuration = 0.05f;
@@ -30,6 +30,7 @@ namespace WordGenderApp
 
         private WordCardManager _manager;
         private BackgroundManager _backgroundMngr;
+        private CorrectFeedback _feedback;
         private Vector3 _defaultPosition;
         private Vector2 _delta;
         private bool _fingerDownOnUpperPart;
@@ -57,6 +58,7 @@ namespace WordGenderApp
         {
             _manager = WordCardManager.Instance;
             _backgroundMngr = BackgroundManager.Instance;
+            _feedback = CorrectFeedback.Instance;
             _defaultPosition = transform.position;
             OnResult += HandleResult;
         }
@@ -122,13 +124,14 @@ namespace WordGenderApp
 
         private void HandleResult(Result res)
         {
-            Debug.Log($"{res}. {_wordData.ToPrint()}");
+            Debug.Log($"{res}. {_wordData}");
 
             switch (res)
             {
                 case Result.Correct:
-                    _backgroundMngr.ResultBackground.DipToCorrectColor();
                     StartCoroutine(AnimateSwipingCardAway(destroyAfterwards: true));
+                    _feedback.DisplayCorrectWord(WordData);
+                    //_backgroundMngr.ResultBackground.DipToCorrectColor();
                     break;
                 case Result.Incorrect:
                     _backgroundMngr.ResultBackground.DipToIncorrectColor();

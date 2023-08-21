@@ -16,7 +16,7 @@ namespace WordGenderApp
         public Gender Gender;
         public string Word;
 
-        public string ToPrint()
+        public override string ToString()
         {
             string g = Gender switch
             {
