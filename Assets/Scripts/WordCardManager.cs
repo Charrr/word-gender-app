@@ -2,21 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace WordGenderApp
 {
     public class WordCardManager : Singleton<WordCardManager>
     {
-        [Header("Colored Background References")]
-        [SerializeField]
-        private CanvasGroup _leftColoredBackground;
-        [SerializeField]
-        private CanvasGroup _rightColoredBackground;
-        [SerializeField]
-        private CanvasGroup _topColoredBackground;
-        [SerializeField]
-        private CanvasGroup _bottomColoredBackground;
-
         [Header("Word Card References")]
         [SerializeField]
         private GameObject _wordCardPrefab;
@@ -26,26 +15,82 @@ namespace WordGenderApp
         private WordCard _defaultWordCard;
         private Vector2 _wordCardDefaultPos;
 
-        public Dictionary<SwipeArea, CanvasGroup> ColoredBackgroundDict;
         public List<WordData> WordList = new();
+
+        /// <summary>
+        /// The word card on top layer of the UI, which is the last child under the spawn root.
+        /// </summary>
+        public WordCard CurrentCard
+        {
+            get
+            {
+                int count = _wordCardSpawnRoot.childCount;
+                if (count > 0)
+                {
+                    return _wordCardSpawnRoot.GetChild(count - 1).GetComponent<WordCard>();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Which area the current card belongs to at this moment.
+        /// </summary>
+        public SwipeArea CurrentCardArea => DetermineSwipeArea(CurrentCard.transform.position);
+        public bool ShouldUpdateBackground { get; set; } = true;
+
+        /// <summary>
+        /// A value between 0 and 1 that represents how much a card is decided to be swiped to one area.
+        /// 0 corresponds to the state where the card lies untouched at the center.
+        /// 1 corresponds to states when the user has fully dragged a card 
+        /// </summary>
+        public float CurrentCardDecisionAlpha => DetermineDecisionAlpha(CurrentCard.transform.position);
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = new Color(0.2f, 0.2f, 1f, 0.5f);
+            //Gizmos.DrawSphere(_defaultWordCard.transform.position, 10f);
+
+            Vector2[] corners = new Vector2[] {
+                new Vector2(0, 0),
+                new Vector2(0, 1),
+                new Vector2(1, 0),
+                new Vector2(1, 1),
+            };
+
+            foreach (var corner in corners)
+            {
+                Gizmos.DrawLine(_defaultWordCard.transform.position, Camera.main.ViewportToScreenPoint(corner));
+            }
+        }
 
         protected override void Awake()
         {
             base.Awake();
-
-            SetUpColorBackgrounds();
-            _wordCardDefaultPos = _defaultWordCard.transform.position;
-
             InitDummyWordList();
         }
 
         private void Start()
         {
-            foreach (var wordData in WordList)
-            {
-                var card = Instantiate(_wordCardPrefab, _wordCardSpawnRoot).GetComponent<WordCard>();
-                card.WordData = wordData;
-            }
+            InstantiateWordCardsFromList();
+            _wordCardDefaultPos = _defaultWordCard.transform.position;
+            _defaultWordCard.gameObject.SetActive(false);
+        }
+
+        private void Update()
+        {
+            if (CurrentCard == null)
+                return;
+
+            float alpha = CurrentCardDecisionAlpha;
+            SwipeArea area = CurrentCardArea;
+            CurrentCard.UpdateTagAppearances(area, alpha);
+
+            if (ShouldUpdateBackground)
+                BackgroundManager.Instance.SwipeAreaBackground.SetColorPerSwipeArea(area, alpha);
         }
 
         private void InitDummyWordList()
@@ -53,15 +98,14 @@ namespace WordGenderApp
             WordList = WordLoader.LoadWords();
         }
 
-        private void SetUpColorBackgrounds()
+        private void InstantiateWordCardsFromList()
         {
-            ColoredBackgroundDict = new()
+            foreach (var wordData in WordList)
             {
-                { SwipeArea.Left, _leftColoredBackground },
-                { SwipeArea.Right, _rightColoredBackground },
-                { SwipeArea.Top, _topColoredBackground },
-                { SwipeArea.Bottom, _bottomColoredBackground }
-            };
+                var card = Instantiate(_wordCardPrefab, _wordCardSpawnRoot).GetComponent<WordCard>();
+                card.WordData = wordData;
+                card.gameObject.name = "Word Card - " + card.WordData.Word;
+            }
         }
 
         // Illustration of the division of four swipe areas.
@@ -135,7 +179,7 @@ namespace WordGenderApp
         /// </summary>
         /// <param name="pos">Position of the word card.</param>
         /// <returns>A value between 0 and 1 as the alpha of the gender tag (and the backaground)</returns>
-        public float DetermineGenderTagAlpha(Vector2 pos)
+        public float DetermineDecisionAlpha(Vector2 pos)
         {
             float x = pos.x;
             float y = pos.y;
@@ -199,6 +243,6 @@ namespace WordGenderApp
             Ray ray = new(origin: pXY, direction: new Vector3(0f, 0f, 1f));
             plane.Raycast(ray, out float z);
             return z;
-        } 
+        }
     }
 }
