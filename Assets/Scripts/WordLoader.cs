@@ -14,8 +14,8 @@ namespace WordGenderApp
 #endif
         public static List<WordData> LoadWords()
         {
-            var fileName = "WordBank.txt";
-            var filePath = Path.Combine(s_LoadPath, fileName);
+            const string fileName = "WordList.txt";
+            string filePath = Path.Combine(s_LoadPath, fileName);
             return LoadWordsFromFile(filePath);
         }
 
