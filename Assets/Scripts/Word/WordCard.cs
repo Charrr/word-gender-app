@@ -7,6 +7,13 @@ using System;
 
 namespace WordGenderApp
 {
+    public enum Result
+    {
+        Correct,
+        Incorrect,
+        Idk
+    }
+
     public class WordCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         [Header("Custom Parameters")]

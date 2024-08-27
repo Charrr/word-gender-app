@@ -72,19 +72,4 @@ namespace WordGenderApp
             }
         }
     }
-
-    public enum SwipeArea
-    {
-        Left,
-        Right,
-        Bottom,
-        Top
-    }
-
-    public enum Result
-    {
-        Correct,
-        Incorrect,
-        Idk
-    }
 }

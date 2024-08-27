@@ -5,6 +5,14 @@ using UnityEngine;
 
 namespace WordGenderApp
 {
+    public enum SwipeArea
+    {
+        Left,
+        Right,
+        Bottom,
+        Top
+    }
+
     public class SwipeAreaColoredBackground : ColoredBackground
     {
         [SerializeField]
