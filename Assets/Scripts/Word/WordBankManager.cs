@@ -21,10 +21,4 @@ namespace WordGenderApp
                 Entries.Remove(entry);
         }
     }
-
-    [CreateAssetMenu]
-    public class WordBank : ScriptableObject
-    {
-        public List<WordEntry> WordEntries = new();
-    }
 }
