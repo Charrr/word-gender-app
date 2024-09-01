@@ -43,7 +43,7 @@ namespace WordGenderApp
 
         public WordEntry(WordData wordData)
         {
-            _id = new();
+            _id = Guid.NewGuid();
             _word = wordData.Word;
             _genderCode = wordData.GenderCode;
             _isFavorite = false;

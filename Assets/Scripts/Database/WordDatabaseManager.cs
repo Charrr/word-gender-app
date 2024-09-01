@@ -15,9 +15,14 @@ namespace WordGenderApp
 
         public WordDatabaseService(string databaseName)
         {
-            var dbPath = $"{Application.persistentDataPath}/{databaseName}";
+#if UNITY_EDITOR
+            var dbPath = $"{Application.dataPath}/Data/{databaseName}";
+#else
+            var dbPath = $"{Application.persistentDataPath}/Data/{databaseName}";
+#endif
 
             _connection = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+            _connection.CreateTable<WordEntry>();
             Debug.Log("Final PATH: " + dbPath);
         }
 
@@ -26,14 +31,20 @@ namespace WordGenderApp
             return WordEntryTable.Where(x => x.Id == id).FirstOrDefault();
         }
 
-        public void InsertWordEntry(WordEntry entry)
+        public void InsertWordEntry(WordEntry entry, bool replaceIfExists = true)
         {
-            _connection.Insert(entry);
+            if (replaceIfExists)
+                _connection.InsertOrReplace(entry);
+            else
+                _connection.Insert(entry);
         }
 
-        public void InsertWordEntries(IEnumerable<WordEntry> entries)
+        public void InsertWordEntries(IEnumerable<WordEntry> entries, bool replaceIfExists = true)
         {
-            _connection.InsertAll(entries);
+            foreach (var entry in entries)
+            {
+                InsertWordEntry(entry, replaceIfExists);
+            }
         }
     }
 }
