@@ -96,6 +96,10 @@ namespace WordGenderApp
         private void InitDummyWordList()
         {
             WordList = WordLoader.LoadWords();
+            foreach (var wordData in WordList)
+            {
+                WordBankManager.Instance.AddWordEntry(new WordEntry(wordData));
+            }
         }
 
         private void InstantiateWordCardsFromList()

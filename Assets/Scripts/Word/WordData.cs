@@ -16,6 +16,21 @@ namespace WordGenderApp
         public Gender Gender;
         public string Word;
 
+        public int GenderCode
+        {
+            get
+            {
+                int code = Gender switch
+                {
+                    Gender.m => 4,
+                    Gender.f => 2,
+                    Gender.n => 1,
+                    _ => 0,
+                };
+                return code;
+            }
+        }
+
         public override string ToString()
         {
             string g = Gender switch
