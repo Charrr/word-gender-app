@@ -15,7 +15,6 @@ namespace WordGenderApp
         private WordCard _defaultWordCard;
         private Vector2 _wordCardDefaultPos;
 
-        public List<WordData> WordList = new();
         public List<WordEntry> WordEntries => WordBankManager.Instance.Entries;
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace WordGenderApp
             foreach (var wordEntry in WordEntries)
             {
                 var card = Instantiate(_wordCardPrefab, _wordCardSpawnRoot).GetComponent<WordCard>();
-                card.WordData = new WordData(wordEntry.GenderAsString, wordEntry.Word);
+                card.WordData = wordEntry;
                 card.gameObject.name = "Word Card - " + card.WordData.Word;
             }
         }

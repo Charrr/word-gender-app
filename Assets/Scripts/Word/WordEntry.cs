@@ -58,6 +58,7 @@ namespace WordGenderApp
 
         public WordEntry() { }
 
+        [Obsolete]
         public WordEntry(WordData wordData)
         {
             _id = Guid.NewGuid();
@@ -70,6 +71,11 @@ namespace WordGenderApp
             _id = Guid.NewGuid();
             _word = word;
             _genderCode = new GenderV2(gender).Code;
+        }
+
+        public override string ToString()
+        {
+            return new GenderV2(GenderCode).ToString() + " " + Word;
         }
 
         public void ResetCounts()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -5,6 +6,7 @@ using UnityEngine;
 
 namespace WordGenderApp
 {
+    [Obsolete]
     public class WordLoader
     {
 #if UNITY_EDITOR

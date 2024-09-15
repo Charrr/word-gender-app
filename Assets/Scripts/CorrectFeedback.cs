@@ -23,12 +23,12 @@ namespace WordGenderApp
             _cg.alpha = 0f;
         }
 
-        public void DisplayCorrectWord(WordData word)
+        public void DisplayCorrectWord(WordEntry word)
         {
             StartCoroutine(AnimateDisplayCorrectWord(word));
         }
 
-        private IEnumerator AnimateDisplayCorrectWord(WordData word)
+        private IEnumerator AnimateDisplayCorrectWord(WordEntry word)
         {
             _cg.alpha = 1f;
             _txtCorrectWord.text = word.ToString();

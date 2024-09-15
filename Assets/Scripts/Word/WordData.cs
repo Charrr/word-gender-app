@@ -45,6 +45,51 @@ namespace WordGenderApp
             }
         }
 
+        public GenderV2(Gender gender)
+        {
+            switch (gender)
+            {
+                case Gender.m:
+                    Masc = true;
+                    break;
+                case Gender.f:
+                    Fem = true;
+                    break;
+                case Gender.n:
+                    Neu = true;
+                    break;
+            }
+        }
+
+        public List<Gender> ToEnum()
+        {
+            var result = new List<Gender>();
+            if (Masc)
+                result.Add(Gender.m);
+            if (Fem)
+                result.Add(Gender.f);
+            if (Neu)
+                result.Add(Gender.n);
+            return result;
+        }
+
+        public override string ToString()
+        {
+            var temp = new List<string>();
+            if (Masc)
+                temp.Add("der");
+            if (Fem)
+                temp.Add("die");
+            if (Neu)
+                temp.Add("das");
+            return string.Join('/', temp);
+        }
+
+        public static List<Gender> CodeToEnum(int code)
+        {
+            return new GenderV2(code).ToEnum();
+        }
+
         public static bool[] CodeToFlags(int code)
         {
             if (code < 0)
@@ -62,6 +107,7 @@ namespace WordGenderApp
         n
     }
 
+    [Obsolete]
     public struct WordData
     {
         public Gender Gender;

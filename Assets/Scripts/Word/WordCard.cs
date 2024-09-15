@@ -42,8 +42,8 @@ namespace WordGenderApp
         private Vector2 _delta;
         private bool _fingerDownOnUpperPart;
 
-        private WordData _wordData;
-        public WordData WordData
+        private WordEntry _wordData;
+        public WordEntry WordData
         {
             get => _wordData;
             set
@@ -126,7 +126,7 @@ namespace WordGenderApp
 
         private Result GetResult(Gender target)
         {
-            return _wordData.Gender == target ? Result.Correct : Result.Incorrect;
+            return GenderV2.CodeToEnum(_wordData.GenderCode).Contains(target) ? Result.Correct : Result.Incorrect;
         }
 
         private void HandleResult(Result res)
