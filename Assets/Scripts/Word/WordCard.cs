@@ -126,7 +126,7 @@ namespace WordGenderApp
 
         private Result GetResult(Gender target)
         {
-            return GenderV2.CodeToEnum(_wordData.GenderCode).Contains(target) ? Result.Correct : Result.Incorrect;
+            return _wordData.Gender.ToEnum().Contains(target) ? Result.Correct : Result.Incorrect;
         }
 
         private void HandleResult(Result res)

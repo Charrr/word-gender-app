@@ -11,6 +11,17 @@ namespace WordGenderApp
         public bool Fem { get; private set; }
         public bool Neu { get; private set; }
 
+        /// <summary>
+        /// A 3-digit byte-code representaion of the gender.
+        /// 000 - 0 - undefined
+        /// 001 - 1 -         der
+        /// 010 - 2 -     die
+        /// 011 - 3 -     die der
+        /// 100 - 4 - das
+        /// 101 - 5 - das     der
+        /// 110 - 6 - das die
+        /// 111 - 7 - das die der
+        /// </summary>
         public int Code
         {
             get
