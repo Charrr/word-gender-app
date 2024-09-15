@@ -16,6 +16,7 @@ namespace WordGenderApp
         private Vector2 _wordCardDefaultPos;
 
         public List<WordData> WordList = new();
+        public List<WordEntry> WordEntries => WordBankManager.Instance.Entries;
 
         /// <summary>
         /// The word card on top layer of the UI, which is the last child under the spawn root.
@@ -95,19 +96,15 @@ namespace WordGenderApp
 
         private void InitDummyWordList()
         {
-            WordList = WordLoader.LoadWords();
-            foreach (var wordData in WordList)
-            {
-                WordBankManager.Instance.AddWordEntry(new WordEntry(wordData));
-            }
+            WordListImporter.Instance.LoadWordsToDatabase();
         }
 
         private void InstantiateWordCardsFromList()
         {
-            foreach (var wordData in WordList)
+            foreach (var wordEntry in WordEntries)
             {
                 var card = Instantiate(_wordCardPrefab, _wordCardSpawnRoot).GetComponent<WordCard>();
-                card.WordData = wordData;
+                card.WordData = new WordData(wordEntry.GenderAsString, wordEntry.Word);
                 card.gameObject.name = "Word Card - " + card.WordData.Word;
             }
         }

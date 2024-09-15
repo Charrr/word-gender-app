@@ -5,3 +5,5 @@ der Hund
 die Gabel
 die Sonne
 der Mond
+der/die See
+der/die/das Nutella

@@ -26,6 +26,14 @@ namespace WordGenderApp
             }
         }
 
+        public void AddWordEntries(IEnumerable<WordEntry> entries)
+        {
+            foreach (var entry in entries)
+            {
+                AddWordEntry(entry);
+            }
+        }
+
         public void RemoveWordEntry(WordEntry entry)
         {
             if (Entries.Contains(entry))
