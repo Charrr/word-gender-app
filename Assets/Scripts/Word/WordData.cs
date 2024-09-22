@@ -31,9 +31,9 @@ namespace WordGenderApp
             set
             {
                 bool[] flags = CodeToFlags(value);
-                Masc = flags[0];
+                Masc = flags[2];
                 Fem = flags[1];
-                Neu = flags[2];
+                Neu = flags[0];
             }
         }
 
